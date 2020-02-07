@@ -1,0 +1,28 @@
+
+/*
+ * @brief    此为宏定义，其原型为 ip4addr_ntoa_r((const ip4_addr_t*)&(addr), buf, buflen)。
+ *	  把32位数IP地址转为带点的IP地址格式。如0xffffffffUL 转为 255.255.255.255。
+ *               转换成功后会把转换后的数据放入转入参数Buf 中，并返回Buf 地址。 
+ *
+ *@para     addr: 指向32位数IP地址的指针
+ *               buf: 用于存放带点IP地址的buf 的地址。
+ *               buflen: buf 的大小
+ *
+ * @retun   NULL  当buf size 太小时 放不下转换后的数据返回NULL 。表示转换失败。
+ *                others  返回传入时 buf的值。
+ */
+char* inet_ntoa_r( addr, buf, buflen )
+
+
+
+/*
+ * @brief    此为宏定义：其原型为ip4addr_aton(cp, (ip4_addr_t*)addr)。 把带点IP地址（255.255.255.255）
+ *                转换为0xffffffff 存入addr中。 注意 此函数中以做大小端转换。
+ *
+ *@para     cp：带点IPaddr
+ *               addr: 存放转换后的32位IPAddr。
+ *
+ * @retun   1  :转换成功
+ *                0  :转换失败。
+ */
+int inet_aton( cp, addr )             
