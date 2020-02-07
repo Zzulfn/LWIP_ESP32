@@ -25,4 +25,24 @@ char* inet_ntoa_r( addr, buf, buflen )
  * @retun   1  :转换成功
  *                0  :转换失败。
  */
-int inet_aton( cp, addr )             
+int inet_aton( cp, addr )  
+
+ /*
+ * @brief    把uint32_t 从小端 转为大端
+ */
+ htonl( uint32_t hostlong )   
+
+ /*
+ * @brief    16位数 从小端 转为大端
+ */
+ htons( uint32_t hostlong ) 
+
+ /*
+ * @brief    32位数 从大端 转为小端
+ */
+ ntohl( uint32_netlong ) 
+
+ /*
+ * @brief    16位数 从大端 转为小端
+ */
+ ntohs( uint16_t netshort ) 
