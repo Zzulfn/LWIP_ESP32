@@ -1,0 +1,14 @@
+一、WiresShark 过虑。
+	1） display filter 显示过虑。
+	2）  capture filter 
+	       1. 协议过滤  TCP
+	       2、 IP 过滤： ip.src == 192.168.1.102
+		            ip.dst == 192.168.1.102 
+	3)   端口过滤
+	       1、tcp.port == 80  
+                       2、tcp.srcport == 80
+ 
+                 4) Http 模式过滤 
+                        htt.request.method == "GET"
+
+	5)  逻运算符 AND /OR 
