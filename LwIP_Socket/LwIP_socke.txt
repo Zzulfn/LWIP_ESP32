@@ -26,4 +26,21 @@ accpet:
      4、内核基于listen_Socket，等待客户端发起连接。完成三次握手后。内核创建新的TCP_PCB控制块。并回调acceptfunction. acceptfunction 基于新的TCP
           控制块，创建新的conn控制块。并把conn控制块通过acceptmbox 发送。  当应用程序调用Accept 时接收消息，创建新的socket.
      5、connect call back function 用来做什么。
-     
+
+recv:
+     1、接收的具体流程。怎么从pbuf读取数据？
+          通过判断socket 中lastdata 来判断上次收到的数据有没有完全接收完。如果没有接收完则继续接收。
+          如果接收完，则通过recvmbox接收上次接收到的数据。然后把pbuf 转化为netbuf, 后复制到接收buf.
+          然后调用TCP_received，跟新接收窗口。
+          netconn_recv-> netconn_recv_data_tcp()->netconn_rece_data() 函数从recvmbox获取pbuf.  （pbuf 为数据量表首地址？）
+          
+
+     2、怎么把pbuf 转为netbuf.
+          其是在pbuf上再封装了一层。即netbuf 包含有一个pbuf的指针
+‘
+
+send:
+      1、怎么把应用层数据转化为netbuf,再到pbuf.
+       
+      2、怎么调用底层发送函数。
+      
