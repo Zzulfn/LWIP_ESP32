@@ -1,0 +1,29 @@
+1） API发送message到那个线程？线程怎么处理 ？
+      发送到tcpip_thread线程，并通过回调函数来处理相关消息。
+
+2） LwIP各个状态间的转换。
+      TCP 三次握手
+      客户端      close ------(sent syn) -------SYNSENT---------(receive SYN ACK)------------established 
+      服务端      close-------(receive syn send syn ack)--------SYNREC-------(receive ACK)------established 
+ 
+     TCP 四次挥手
+     客户端      established-----(sent FIN)-----FIN_WAIT1-------(recieve ACK)-----FIN_WAIT2------(receive FIN)----(Send ACK)---------CLOSE
+     服务端      established ----(receive FAN send ACK)-----CLOSE WAITE-------- (Send FIN)--------LAST_ACK-----（receive ACK )-----CLOSE 
+
+3）服务器listen，accpet 动作
+
+listen:      
+     1、让netconn, tcp_pcb结构处于监听状态，
+     2、创建acceptmbox到netconn 中， 用tcp_accept 注册连接时的回调函数acceptfunction。
+     3、当有连接时，执行acceptfunction,并发送acceptmbox .到应用程序。 最后释放信号量做同步
+     4、 连接的信息由acceptfunction 中完成。
+
+accpet:
+     1、从acceptmbox 邮箱中获取一个连接请求。
+     2、触发回调函数
+     3、旧的socket是server用来等待客户端连接的，当accept后，服务器还是要继续在这个旧的socket上侦听是否有新的连接阿。
+          所以产生新socket和当前连接通信，保留旧socket继续侦听。
+     4、内核基于listen_Socket，等待客户端发起连接。完成三次握手后。内核创建新的TCP_PCB控制块。并回调acceptfunction. acceptfunction 基于新的TCP
+          控制块，创建新的conn控制块。并把conn控制块通过acceptmbox 发送。  当应用程序调用Accept 时接收消息，创建新的socket.
+     5、connect call back function 用来做什么。
+     
